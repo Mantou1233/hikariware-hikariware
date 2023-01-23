@@ -31,6 +31,12 @@ export class Requester {
 		this.client = client;
 	}
 
+	public async getClientUser(){
+		return await this.baseURLRequester.get(
+			"/users/@me"
+		);
+	}
+
 	public async crosspostMessage(channelId: string, messageId: string) {
 		return await this.channelRequester.post(
 			`/${channelId}/messages/${messageId}/crosspost`

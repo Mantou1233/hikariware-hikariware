@@ -15,3 +15,7 @@ const client = new CommandClient({
 
 client.connect();
 
+client.on("ready", async () => {
+	console.log(await client.requester.getClientUser())
+	return 0;
+})
