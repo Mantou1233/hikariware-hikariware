@@ -40,6 +40,7 @@ export enum GatewayOpCode {
 }
 
 export interface ClientEvents {
+	ws: [any];
 	ready: [];
 	messageCreate: [Message];
 	guildCreate: [any];
@@ -62,10 +63,11 @@ export enum channelTypes {
 	GUILD_FORUM
 }
 
-export interface CacheAdapter {
-	set(cacheName: string, key: string, data: any): any;
-	get(cacheName: string, key: string): any;
-	delete(cacheName: string, key: string): any;
+export interface IManager<T> {
+	set(key: string, data: T): void;
+	get(key: string): T;
+	delete(key: string): boolean;
+	fetch(key: string): Promise<void>;
 }
 
 export enum DefaultMessageNotificationLevel {

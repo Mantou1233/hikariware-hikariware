@@ -1,32 +1,27 @@
 import { GuildTextBasedChannel } from "../DiscordTypes/GuildTextBasedChannel";
 import { Message } from "../DiscordTypes/Message";
-import { ClientEvents } from "../Types";
-import { CacheManager } from "./CacheManager";
-import { Requester } from "./Requester";
-import WebSocketManager from "./WebSocketManager";
+import { ChannelManager } from "../Manager/ChannelManager";
+import { ClientUser } from "./../DiscordTypes/ClientUser";
+import { BaseClient } from "./Base/BaseClient";
 
-export class Client extends WebSocketManager {
-	public requester = new Requester(this);
-	public cacheManager = new CacheManager(this);
-
-	public on<K extends keyof ClientEvents>(
-		event: K,
-		listener: (...args: ClientEvents[K]) => any
-	): any {
-		super.on(event, listener);
-	}
-
-	protected handleDispatch(data: any) {
+export class Client extends BaseClient {
+	public user: ClientUser;
+	public channels = new ChannelManager(this);
+	protected async handleDispatch(data: any): Promise<void> {
 		switch (data.t) {
 			case "READY":
 				super.setS(data.s);
+				this.user = new ClientUser(
+					this,
+					await this.requester.getClientUser()
+				);
 				this.emit("ready");
 				break;
 			case "GUILD_CREATE":
 				for (const channelObj of data.d.channels) {
 					//TODO generate other types of object
 					const channel = new GuildTextBasedChannel(this, channelObj);
-					this.cacheManager.setChannel(channel.id, channel);
+					this.channels.set(channel.id, channel);
 				}
 				this.emit("guildCreate", data.d);
 				break;

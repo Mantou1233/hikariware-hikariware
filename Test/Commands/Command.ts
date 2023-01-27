@@ -13,10 +13,7 @@ export default class Test extends Command {
 		});
 	}
 
-	async handle(msg: Message, args: string[]){
-        if(msg.referencedMessage){
-            return msg.reply("sbsb")
-        }
-        return (msg.channel as GuildTextBasedChannel).send("notsb!");
-    }
+	async handle(msg: Message, args: string[]) {
+		console.log(msg.author);
+	}
 }

@@ -1,15 +1,19 @@
 import axios, { AxiosInstance, Method } from "axios";
 import { FullMessageOptions } from "../DiscordTypes/GuildTextBasedChannel";
 import { snowflake } from "../Types";
-import { Client } from "./Client";
+import { BaseClient } from "./Base/BaseClient";
+import { APIRouteType, buildRoute } from "./APIRequester";
 
 export class Requester {
-	private baseURLRequester: AxiosInstance;
+	public baseURLRequester: AxiosInstance;
+	public get api(): APIRouteType {
+		return buildRoute(this);
+	}
 	private channelRequester: AxiosInstance;
 	private guildRequester: AxiosInstance;
-	public client: Client;
+	public client: BaseClient;
 
-	public constructor(client: Client) {
+	public constructor(client: BaseClient) {
 		this.baseURLRequester = axios.create({
 			baseURL: "https://discord.com/api/v10",
 			headers: {
@@ -31,22 +35,26 @@ export class Requester {
 		this.client = client;
 	}
 
-	public async getClientUser(){
-		return await this.baseURLRequester.get(
-			"/users/@me"
-		);
+	public async getClientUser() {
+		return await this.api.users["@me"].get();
 	}
 
 	public async crosspostMessage(channelId: string, messageId: string) {
-		return await this.channelRequester.post(
-			`/${channelId}/messages/${messageId}/crosspost`
-		);
+		// prettier-ignore
+		return await this.api
+			.channels[channelId]
+			.messages[messageId]
+			.crosspost
+			.post();
 	}
 
 	public async react(channelId: string, messageId: string, emoji: string) {
-		return await this.channelRequester
-			.put(`/${channelId}/messages/${messageId}/reactions/${emoji}/@me`)
-			.then(({ data }) => data);
+		// prettier-ignore
+		return await this.api
+			.channels[channelId]
+			.messages[messageId]
+			.reactions[emoji]["@me"]
+			.put();
 	}
 
 	public async removeReaction(
@@ -55,13 +63,12 @@ export class Requester {
 		emoji: string,
 		userId: string | "me"
 	) {
-		return await this.channelRequester
-			.delete(
-				`/${channelId}/messages/${messageId}/reactions/${emoji}/${
-					userId === "me" ? "@me" : userId
-				}`
-			)
-			.then(({ data }) => data);
+		// prettier-ignore
+		return await this.api
+			.channel[channelId]
+			.messages[messageId]
+			.reactions[emoji][userId == "me" ? "@me" : userId]
+			.delete();
 	}
 
 	public async getReactions(
@@ -71,14 +78,17 @@ export class Requester {
 		after?: snowflake,
 		limit?: number
 	) {
-		return await this.channelRequester
-			.get(`/${channelId}/messages/${messageId}/reactions/${emoji}`, {
+		// prettier-ignore
+		return await this.api
+			.channel[channelId]
+			.messages[messageId]
+			.reactions[emoji]
+			.get({
 				params: {
 					after,
 					limit
 				}
-			})
-			.then(({ data }) => data);
+			});
 	}
 
 	public async removeAllReactions(
@@ -86,13 +96,9 @@ export class Requester {
 		messageId: string,
 		emoji?: string
 	) {
-		return await this.channelRequester
-			.delete(
-				`/${channelId}/messages/${messageId}/reactions${
-					emoji ? `/${emoji}` : ""
-				}`
-			)
-			.then(({ data }) => data);
+		return await this.api.channel[channelId].messages[messageId].reactions[
+			emoji || ""
+		].delete();
 	}
 
 	public async deleteMessage(channelId: string, messageId: string) {

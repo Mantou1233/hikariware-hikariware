@@ -1,8 +1,8 @@
-import { Client } from "../../Clients/Client";
+import { BaseClient } from "../../Clients/Base/BaseClient";
 import { CommandClient } from "../../Clients/CommandsClient";
 import { ICategory } from "../Interfaces";
 
-export class Cog<T extends Client> {
+export class Cog<T extends BaseClient> {
 	public client: T;
 	public cogInfo: ICategory;
 

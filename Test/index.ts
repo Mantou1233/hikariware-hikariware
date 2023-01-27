@@ -10,12 +10,7 @@ const client = new CommandClient({
 	intents: Object.values(GatewayIntents) as any,
 	token: token,
 	prefix: ["t!"],
-	directory: "C:/Users/pc/Videos/hikariware/Test/Commands"
+	directory: "/home/xi/hikariware/Test/Commands"
 });
 
 client.connect();
-
-client.on("ready", async () => {
-	console.log(await client.requester.getClientUser())
-	return 0;
-})

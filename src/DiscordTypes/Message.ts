@@ -1,9 +1,12 @@
 import { snowflake } from "../Types";
 import { Embed } from "./Embed";
 import moment, { Moment } from "moment-timezone";
-import { Client } from "../Clients/Client";
-import { FullMessageOptions, GuildTextBasedChannel } from "./GuildTextBasedChannel";
+import {
+	FullMessageOptions,
+	GuildTextBasedChannel
+} from "./GuildTextBasedChannel";
 import BaseChannel from "./Base/BaseChannel";
+import { Client } from "../Clients/Client";
 
 export class Message {
 	public id: snowflake;
@@ -281,10 +284,8 @@ export class Message {
 	}
 
 	public get channel() {
-		const channelFromCache = this.client.cacheManager.getChannel(
-			this.channelId
-		);
-		return channelFromCache ?? null;
+		const channelFromCache = this.client.channels.get(this.channelId);
+		return channelFromCache || null;
 	}
 }
 

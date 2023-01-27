@@ -1,7 +1,8 @@
 import moment, { Moment } from "moment-timezone";
-import { Client } from "../../Clients/Client";
 import { channelTypes } from "../../Types";
 import { DiscordSnowflake } from "@sapphire/snowflake";
+import { BaseClient } from "../../Clients/Base/BaseClient";
+import { Client } from "../../Clients/Client";
 
 export default class BaseChannel {
 	public client: Client;

@@ -129,7 +129,7 @@ export class GuildTextBasedChannel extends GuildChannel {
 
 	public async setType(type: number, reason?: string) {}
 }
-0
+0;
 export interface MessageOptions {
 	tts?: boolean;
 	embeds?: Embed[];
