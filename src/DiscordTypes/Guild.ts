@@ -7,22 +7,22 @@ import {
 	GuildNSFWLevel,
 	MFALevel,
 	PremiumTier,
-	snowflake,
+	Snowflake,
 	VerificationLevel
 } from "../Types";
 
 export class Guild {
-	public id: snowflake;
+	public id: Snowflake;
 	public name: string;
 	public icon?: string;
 	public splash?: string;
 	public discoverySplash?: string;
 	public ownerId: string;
 	public region?: string;
-	public afkChannelId?: snowflake;
+	public afkChannelId?: Snowflake;
 	public afkTimeout: number;
 	public widgetEnabled?: boolean;
-	public widgetChannelId?: snowflake;
+	public widgetChannelId?: Snowflake;
 	public verificationLevel: VerificationLevel;
 	public defaultMessageNotificationLevel: DefaultMessageNotificationLevel;
 	public explicitContentFilterLevel: ExplicitContentFilterLevel;
@@ -32,10 +32,10 @@ export class Guild {
 	public emojis: any[];
 	public features: string[];
 	public mfaLevel: MFALevel;
-	public applicationId?: snowflake;
-	public systemChannelId?: snowflake;
+	public applicationId?: Snowflake;
+	public systemChannelId?: Snowflake;
 	public systemChannelFlags: number;
-	public rulesChannelId?: snowflake;
+	public rulesChannelId?: Snowflake;
 	public maxPresences?: number;
 	public maxMembers?: number;
 	public vanityURLCode?: string;
@@ -44,7 +44,7 @@ export class Guild {
 	public premiumTier?: PremiumTier;
 	public premiumSubscriptionCount?: number;
 	public preferredLocale: string;
-	public publicUpdatesChannelId?: snowflake;
+	public publicUpdatesChannelId?: Snowflake;
 	public maxVideoChannelUsers?: number;
 	public approximateMemberCount?: number;
 	public approximatePresenceCount?: number;

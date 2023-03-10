@@ -1,7 +1,7 @@
 import { GuildTextBasedChannel } from "../../DiscordTypes/GuildTextBasedChannel";
 import { Message } from "../../DiscordTypes/Message";
 import { ClientEvents } from "../../Types";
-import { APIRouteType, buildRoute } from "../APIRequester";
+import { APIRouteType, buildRoute } from "../../Common/APIRouter";
 import { Requester } from "../Requester";
 import WebSocketManager from "../WebSocketManager";
 

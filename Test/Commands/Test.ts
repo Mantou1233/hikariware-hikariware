@@ -26,7 +26,38 @@ export default class Test extends Cog<CommandClient> {
 	}
 
 	@on
-	public async messageCreate(msg) {
-		console.log(msg.author);
+	public async messageCreate(msg: Message) {
+		if (msg.author.bot) return;
+		msg.reply(<any>{
+			content: "This is a message with components",
+			components: [
+				{
+					type: 1,
+					components: [
+						{
+							type: 2,
+							label: "Click me!",
+							style: 1,
+							custom_id: "click_one"
+						}
+					]
+				}
+			]
+		});
+	}
+	@on
+	public interactionCreate(arg) {
+		console.log(arg);
+		// prettier-ignore
+		this.client
+			.api
+			.interactions[arg.id][arg.token]
+			.callback
+			.post({
+				"type": 4,
+				"data": {
+					"content": "yo wassup my guy :sunglasses: respo FUCK the design HEYO sus!?"
+				}
+			});
 	}
 }

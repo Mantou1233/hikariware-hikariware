@@ -1,8 +1,8 @@
-import { snowflake } from "./../Types";
+import { Snowflake } from "./../Types";
 import { Client } from "../Clients/Client";
 
 export class User {
-	public id: snowflake;
+	public id: Snowflake;
 	public username: string;
 	public avatar: string;
 	public avatar_decoration?: string;

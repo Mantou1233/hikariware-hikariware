@@ -1,8 +1,8 @@
 import axios, { AxiosInstance, Method } from "axios";
 import { FullMessageOptions } from "../DiscordTypes/GuildTextBasedChannel";
-import { snowflake } from "../Types";
+import { Snowflake } from "../Types";
 import { BaseClient } from "./Base/BaseClient";
-import { APIRouteType, buildRoute } from "./APIRequester";
+import { APIRouteType, buildRoute } from "../Common/APIRouter";
 
 export class Requester {
 	public baseURLRequester: AxiosInstance;
@@ -35,7 +35,7 @@ export class Requester {
 		this.client = client;
 	}
 
-	public async getClientUser() {
+	public async fetchClientUser() {
 		return await this.api.users["@me"].get();
 	}
 
@@ -75,7 +75,7 @@ export class Requester {
 		channelId: string,
 		messageId: string,
 		emoji: string,
-		after?: snowflake,
+		after?: Snowflake,
 		limit?: number
 	) {
 		// prettier-ignore
@@ -96,9 +96,12 @@ export class Requester {
 		messageId: string,
 		emoji?: string
 	) {
-		return await this.api.channel[channelId].messages[messageId].reactions[
-			emoji || ""
-		].delete();
+		// prettier-ignore
+		return await this.api
+			.channel[channelId]
+			.messages[messageId]
+			.reactions[emoji || ""]
+			.delete();
 	}
 
 	public async deleteMessage(channelId: string, messageId: string) {
@@ -182,7 +185,7 @@ export class Requester {
 
 	public async overwriteChannelPermission(
 		channelId: string,
-		overwriteId: snowflake,
+		overwriteId: Snowflake,
 		data: any
 	) {
 		const { reason } = data;
@@ -210,7 +213,7 @@ export class Requester {
 
 	public async deleteChannelPermissionOverwrite(
 		channelId: string,
-		overwriteId: snowflake,
+		overwriteId: Snowflake,
 		data: any
 	) {
 		const { reason } = data;
@@ -223,7 +226,7 @@ export class Requester {
 
 	public async followNewsChannel(
 		channelId: string,
-		webhook_channel_id: snowflake
+		webhook_channel_id: Snowflake
 	) {
 		return await this.channelRequester
 			.post(`${channelId}/followers`, { webhook_channel_id })
@@ -358,7 +361,7 @@ export class Requester {
 
 	public async getJoinedPrivateThreadList(
 		channelId: string,
-		before?: snowflake,
+		before?: Snowflake,
 		limit?: number
 	) {
 		return await this.channelRequester
@@ -432,7 +435,7 @@ export class Requester {
 	public async getGuildMembers(
 		guildId: string,
 		limit?: number,
-		after?: snowflake
+		after?: Snowflake
 	) {
 		return await this.guildRequester
 			.get(`${guildId}/members`, {

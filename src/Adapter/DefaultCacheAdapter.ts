@@ -1,3 +1,3 @@
-import { snowflake } from "../Types";
+import { Snowflake } from "../Types";
 
-export class Collection<T> extends Map<snowflake, T> {}
+export class Collection<T> extends Map<Snowflake, T> {}

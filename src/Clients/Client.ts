@@ -13,7 +13,7 @@ export class Client extends BaseClient {
 				super.setS(data.s);
 				this.user = new ClientUser(
 					this,
-					await this.requester.getClientUser()
+					await this.requester.fetchClientUser()
 				);
 				this.emit("ready");
 				break;
@@ -28,6 +28,9 @@ export class Client extends BaseClient {
 			case "MESSAGE_CREATE":
 				const message = new Message(this, data.d);
 				this.emit("messageCreate", message);
+				break;
+			case "INTERACTION_CREATE":
+				this.emit("interactionCreate", data.d);
 				break;
 		}
 	}

@@ -1,5 +1,5 @@
 import moment, { Moment } from "moment-timezone";
-import { channelTypes } from "../../Types";
+import { ChannelTypes } from "../../Types";
 import { DiscordSnowflake } from "@sapphire/snowflake";
 import { BaseClient } from "../../Clients/Base/BaseClient";
 import { Client } from "../../Clients/Client";
@@ -8,7 +8,7 @@ export default class BaseChannel {
 	public client: Client;
 	public createAt: Moment;
 	public id: string;
-	public type: channelTypes;
+	public type: ChannelTypes;
 	protected guildId: string;
 
 	public constructor(client: Client, data: any) {
@@ -20,7 +20,7 @@ export default class BaseChannel {
 
 	public get url() {
 		return `https://discord.com/channels/${
-			[channelTypes.DM, channelTypes.GROUP_DM].includes(this.type)
+			[ChannelTypes.DM, ChannelTypes.GROUP_DM].includes(this.type)
 				? "@me"
 				: this.guildId
 		}/${this.id}`;

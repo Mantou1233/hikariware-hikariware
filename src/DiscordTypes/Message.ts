@@ -1,4 +1,4 @@
-import { snowflake } from "../Types";
+import { Snowflake } from "../Types";
 import { Embed } from "./Embed";
 import moment, { Moment } from "moment-timezone";
 import {
@@ -9,7 +9,7 @@ import BaseChannel from "./Base/BaseChannel";
 import { Client } from "../Clients/Client";
 
 export class Message {
-	public id: snowflake;
+	public id: Snowflake;
 	public channelId: string;
 	public author: any;
 	public content: string;
@@ -25,11 +25,11 @@ export class Message {
 	public reactions: any[];
 	public nonce: number | string;
 	public pinned: boolean;
-	public webhookId?: snowflake;
+	public webhookId?: Snowflake;
 	public type: number;
 	public activity: any;
 	public application: any;
-	public applicationId: snowflake;
+	public applicationId: Snowflake;
 	public messageReference?: IMessageReference;
 	public flags: number;
 	public referencedMessage?: Message;

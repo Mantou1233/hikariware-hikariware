@@ -34,9 +34,9 @@ export interface CommandClientInitOptions extends ClientInitOptions {
 
 export enum GatewayOpCode {
 	HELLO = 10,
-	HEARTBEAT = 1,
-	IDENTIFY = 2,
-	DISPATCH = 0
+	DISPATCH = 0,
+	IDENTIFY,
+	HEARTBEAT
 }
 
 export interface ClientEvents {
@@ -46,9 +46,9 @@ export interface ClientEvents {
 	guildCreate: [any];
 }
 
-export type snowflake = string;
+export type Snowflake = string;
 
-export enum channelTypes {
+export enum ChannelTypes {
 	GUILD_TEXT = 0,
 	DM,
 	GUILD_VOICE,
@@ -58,7 +58,7 @@ export enum channelTypes {
 	GUILD_NEWS_THREAD = 10,
 	GUILD_PUBLIC_THREAD,
 	GUILD_PRIVATE_THREAD,
-	GUILD_STAGE_THREAD,
+	GUILD_STAGE_VOICE,
 	GUILD_DIRECTORY,
 	GUILD_FORUM
 }

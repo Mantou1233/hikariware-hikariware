@@ -1,5 +1,5 @@
 import { Client } from "../Clients/Client";
-import { snowflake } from "../Types";
+import { Snowflake } from "../Types";
 import { Embed } from "./Embed";
 import { GuildChannel } from "./GuildChannel";
 
@@ -146,8 +146,8 @@ export interface CreateInviteOptions {
 	temporary: boolean;
 	unique: boolean;
 	targetType: number;
-	targetUserId: snowflake;
-	targetApplicationId: snowflake;
+	targetUserId: Snowflake;
+	targetApplicationId: Snowflake;
 	maxAge: number;
 	maxUses: number;
 }
