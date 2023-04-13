@@ -8,6 +8,7 @@
 		"@sapphire/snowflake": "^3.2.2",
 		"axios": "^0.27.2",
 		"clear-any-console": "^1.16.2",
+		"discord-api-types": "^0.37.35",
 		"glob": "^8.0.3",
 		"moment-timezone": "^0.5.39",
 		"ts-node": "^10.9.1",

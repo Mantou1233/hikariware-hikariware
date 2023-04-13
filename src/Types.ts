@@ -34,9 +34,9 @@ export interface CommandClientInitOptions extends ClientInitOptions {
 
 export enum GatewayOpCode {
 	HELLO = 10,
-	DISPATCH = 0,
-	IDENTIFY,
-	HEARTBEAT
+	HEARTBEAT = 1,
+	IDENTIFY = 2,
+	DISPATCH = 0
 }
 
 export interface ClientEvents {

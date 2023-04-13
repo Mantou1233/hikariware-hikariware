@@ -2,6 +2,7 @@ import EventEmitter from "events";
 import WebSocket, { RawData } from "ws";
 import { Message } from "../DiscordTypes/Message";
 import { ClientInitOptions, GatewayIntents, GatewayOpCode } from "../Types";
+import { log } from "console";
 
 export default abstract class WebSocketManager extends EventEmitter {
 	protected ws: WebSocket;
@@ -34,7 +35,6 @@ export default abstract class WebSocketManager extends EventEmitter {
 
 	private onMessage(rawdata: RawData, isBinary: boolean) {
 		const data = JSON.parse(rawdata.toString());
-		// console.log(data);
 		switch (data.op) {
 			case GatewayOpCode.HELLO:
 				this.heartBeatInteval ??= data.d.heartbeat_interval;

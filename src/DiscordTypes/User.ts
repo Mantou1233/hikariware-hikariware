@@ -1,7 +1,8 @@
 import { Snowflake } from "./../Types";
 import { Client } from "../Clients/Client";
+import * as v10 from "discord-api-types/v10";
 
-export class User {
+export class User implements v10.APIUser {
 	public id: Snowflake;
 	public username: string;
 	public avatar: string;
@@ -11,7 +12,7 @@ export class User {
 	public public_flags?: number;
 	public banner?: string;
 	public banner_color?: string;
-	public accent_color?: string;
+	public accent_color?: number;
 	public client: Client;
 
 	public constructor(client: Client, data: any) {

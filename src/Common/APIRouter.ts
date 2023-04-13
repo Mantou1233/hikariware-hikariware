@@ -1,7 +1,15 @@
 import { Requester } from "../Clients/Requester";
 import { AxiosRequestConfig, AxiosResponse } from "axios";
-const noop = () => {}; // eslint-disable-line no-empty-function
-const methods = ["get", "post", "delete", "patch", "put"] as const;
+const noop = () => {};
+const methods = [
+	"get",
+	"post",
+	"delete",
+	"head",
+	"options",
+	"patch",
+	"put"
+] as const;
 const reflectors = [
 	"toString",
 	"valueOf",
@@ -9,7 +17,7 @@ const reflectors = [
 	"constructor",
 	Symbol.toPrimitive,
 	Symbol.for("nodejs.util.inspect.custom")
-];
+] as const;
 
 function buildRoute(requester: Requester) {
 	const route = [""];
@@ -18,7 +26,6 @@ function buildRoute(requester: Requester) {
 			if (reflectors.includes(name)) return () => route.join("/");
 			if (methods.includes(name)) {
 				const routeBucket = [...route].filter(val => val.trim() !== "");
-				console.log(routeBucket);
 				return (dataOrOptions, options) => {
 					if (["post", "patch", "put"].includes(name)) {
 						return requester.baseURLRequester[
@@ -53,12 +60,13 @@ function buildRoute(requester: Requester) {
 	return new Proxy(noop, handler);
 }
 
-type APIRouteType = ({
+type APIRouteType = {
 	[K in keyof TRequesterRaw]: TRequesterRaw[K];
 } & {
-	[key: string]: APIRouteType;
-}) &
-	((...args: string[]) => APIRouteType);
+	[K in keyof typeof reflectors]: () => string;
+} & (((...args: string[]) => APIRouteType) & {
+		[key: string]: APIRouteType;
+	});
 
 /**
  * basically a binded instance of Axios methods with URL omiited out

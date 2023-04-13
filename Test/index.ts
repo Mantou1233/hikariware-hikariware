@@ -14,3 +14,7 @@ const client = new CommandClient({
 });
 
 client.connect();
+
+process.on("unhandledRejection", ex => {
+	console.log(ex);
+});

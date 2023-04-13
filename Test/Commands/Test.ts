@@ -16,19 +16,8 @@ export default class Test extends Cog<CommandClient> {
 	@command({
 		alias: ["kk"]
 	})
-	public async hi(message: Message, args: string) {
-		return message.reply(new Embed().setTitle("w").setColor("#C8F4FB"));
-	}
-
-	@once
-	public async ready() {
-		console.log(`Logged in as ${this.client.user.tag}!`);
-	}
-
-	@on
-	public async messageCreate(msg: Message) {
-		if (msg.author.bot) return;
-		msg.reply(<any>{
+	public async ping(message: Message, args: string) {
+		return message.reply(<any>{
 			content: "This is a message with components",
 			components: [
 				{
@@ -42,8 +31,29 @@ export default class Test extends Cog<CommandClient> {
 						}
 					]
 				}
+			],
+			embeds: [
+				new Embed()
+					.setTitle("hi api test")
+					.setDescription(
+						`ping ${
+							Date.now() - message.timestamp.toDate().getTime()
+						}ms`
+					)
+					.setColor("#C8F4FB")
+					.toJSON()
 			]
 		});
+	}
+
+	@once
+	public async ready() {
+		console.log(`Logged in as ${this.client.user.tag}!`);
+	}
+
+	@on
+	public async messageCreate(msg: Message) {
+		if (msg.author.bot) return;
 	}
 	@on
 	public interactionCreate(arg) {
@@ -56,7 +66,7 @@ export default class Test extends Cog<CommandClient> {
 			.post({
 				"type": 4,
 				"data": {
-					"content": "yo wassup my guy :sunglasses: respo FUCK the design HEYO sus!?"
+					"content": "interaction works i think!!"
 				}
 			});
 	}
