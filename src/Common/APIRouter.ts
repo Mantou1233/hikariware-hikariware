@@ -72,13 +72,13 @@ type APIRouteType = {
  * basically a binded instance of Axios methods with URL omiited out
  */
 interface TRequesterRaw {
-	get(config?: AxiosRequestConfig): AxiosResponse;
-	delete(config?: AxiosRequestConfig): AxiosResponse;
-	head(config?: AxiosRequestConfig): AxiosResponse;
-	options(config?: AxiosRequestConfig): AxiosResponse;
-	post(data?: any, config?: AxiosRequestConfig): AxiosResponse;
-	put(data?: any, config?: AxiosRequestConfig): AxiosResponse;
-	patch(data?: any, config?: AxiosRequestConfig): AxiosResponse;
+	get(config?: AxiosRequestConfig): AxiosResponse["data"];
+	delete(config?: AxiosRequestConfig): AxiosResponse["data"];
+	head(config?: AxiosRequestConfig): AxiosResponse["data"];
+	options(config?: AxiosRequestConfig): AxiosResponse["data"];
+	post(data?: any, config?: AxiosRequestConfig): AxiosResponse["data"];
+	put(data?: any, config?: AxiosRequestConfig): AxiosResponse["data"];
+	patch(data?: any, config?: AxiosRequestConfig): AxiosResponse["data"];
 }
 
 export { buildRoute, APIRouteType };

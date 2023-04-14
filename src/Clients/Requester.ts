@@ -115,31 +115,37 @@ export class Requester {
 	}
 
 	public async getMessage(channelId: string, messageId: string) {
-		return await this.channelRequester
-			.get(`/${channelId}/messages/${messageId}`)
-			.then(({ data }) => data);
+		// prettier-ignore
+		return await this.api
+			.channels[channelId]
+			.messages[messageId]
+			.get()
 	}
 
 	public async getMessages(channelId: string, limit?: number) {
-		return await this.channelRequester
-			.get(`${channelId}/messages`, {
-				params: {
-					limit
-				}
-			})
-			.then(({ data }) => data);
+		// prettier-ignore
+		return await this.api
+			.channels[channelId]
+			.messages
+			.get({
+					params: {
+						limit
+					}
+				})
 	}
 
 	public async getChannel(channelId: string) {
-		return await this.channelRequester
-			.get(`/${channelId}`)
-			.then(({ data }) => data);
+		// prettier-ignore
+		return await this.api
+			.channels[channelId]
+			.get()
 	}
 
 	public async deleteChannel(channelId: string) {
-		return await this.channelRequester
-			.delete(`/${channelId}`)
-			.then(({ data }) => data);
+		// prettier-ignore
+		return await this.api
+			.channels[channelId]
+			.delete()
 	}
 
 	public async sendMessage(
@@ -149,7 +155,7 @@ export class Requester {
 		const toSend: v10.APIMessage = {
 			...messageOptions,
 			allow_mentions: messageOptions.allowMentions
-		};
+		} as any;
 		delete toSend["allowMentions"];
 		if (toSend.embeds) {
 			toSend.embeds = toSend.embeds.map(e => serialize(e));
@@ -162,22 +168,24 @@ export class Requester {
 	}
 
 	public async bulkDelete(channelId: string, count: number) {
-		const messages = await this.getMessages(channelId, count);
-		const ids = messages.map((e: any) => e.id);
-		return await this.channelRequester
-			.post(`${channelId}/messages/bulk-delete`, {
-				messages: ids
-			})
-			.then(({ data }) => data);
+		const bulkIds = (await this.getMessages(channelId, count)).map(
+			(e: any) => e.id
+		);
+		// prettier-ignore
+		return await this.api
+				.channels[channelId]
+				.messages["bulk-delete"]
+				.post({
+					messages: bulkIds
+				});
 	}
 
 	public async editChannel(channelId: string, data: any) {
 		const { reason } = data;
-		return await this.channelRequester
-			.patch(`${channelId}`, data, {
-				headers: { "X-Audit-Log-Reason": reason }
-			})
-			.then(({ data }) => data);
+		// prettier-ignore
+		return await this.api
+				.channels[channelId]
+				.patch(data, reason ? { headers: { "X-Audit-Log-Reason": reason } } : {})
 	}
 
 	public async editMessage(
@@ -209,18 +217,21 @@ export class Requester {
 	}
 
 	public async getChannelInvites(channelId: string) {
-		return await this.channelRequester
-			.get(`${channelId}/invites`)
-			.then(({ data }) => data);
+		// prettier-ignore
+		return await this.api
+				.channels[channelId]
+				.invites
+				.get();
 	}
 
 	public async createChannelInvite(channelId: string, data: any) {
 		const { reason } = data;
-		return await this.channelRequester
-			.post(`${channelId}/invites`, data, {
-				headers: { "X-Audit-Log-Reason": reason }
-			})
-			.then(({ data }) => data);
+
+		// prettier-ignore
+		return await this.api
+				.channels[channelId]
+				.invites
+				.post(data, reason ? { headers: { "X-Audit-Log-Reason": reason } } : {});
 	}
 
 	public async deleteChannelPermissionOverwrite(
@@ -229,11 +240,12 @@ export class Requester {
 		data: any
 	) {
 		const { reason } = data;
-		return await this.channelRequester
-			.delete(`${channelId}/permissions/${overwriteId}`, {
-				headers: { "X-Audit-Log-Reason": reason }
-			})
-			.then(({ data }) => data);
+
+		// prettier-ignore
+		return await this.api
+				.channels[channelId]
+				.permissions[overwriteId]
+				.post(data, reason ? { headers: { "X-Audit-Log-Reason": reason } } : {});
 	}
 
 	public async followNewsChannel(
